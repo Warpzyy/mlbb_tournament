@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Daftar Tim{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-light">
+    <h2 class="mb-4"><i class="bi bi-person-add"></i> Daftarkan Tim Kamu</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="card bg-dark text-light shadow-sm mb-4">
+        <div class="card-body">
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="nama_tim" class="form-label">Nama Tim</label>
+                    <input type="text" class="form-control" name="nama_tim" required>
+                </div>
+                <div class="mb-3">
+                    <label for="anggota" class="form-label">Anggota Tim (Pisahkan dengan koma)</label>
+                    <textarea class="form-control" name="anggota" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="kontak" class="form-label">Kontak (WhatsApp/IG)</label>
+                    <input type="text" class="form-control" name="kontak" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Daftarkan Tim</button>
+            </form>
+        </div>
+    </div>
+
+    <h4 class="mb-3"><i class="bi bi-people-fill"></i> Tim Terdaftar</h4>
+    <div class="table-responsive">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama Tim</th>
+                    <th>Anggota</th>
+                    <th>Kontak</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tim in daftar_tim %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ tim.nama_tim }}</td>
+                    <td>{{ tim.anggota }}</td>
+                    <td>{{ tim.kontak }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">Belum ada tim terdaftar.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

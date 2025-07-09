@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  body {
+    background: linear-gradient(135deg, #141e30, #243b55);
+    min-height: 100vh;
+  }
+  .login-card {
+    max-width: 400px;
+    margin: auto;
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+  .login-avatar {
+    width: 80px;
+    margin: auto;
+    margin-bottom: 20px;
+    display: block;
+  }
+</style>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">    
+  <div class="login-card">
+
+    <img src="{{ url_for('static', filename='/warpzyy_logo.png') }}" class="login-avatar rounded-circle shadow" alt="Avatar">
+
+
+    <h3 class="text-center mb-4 fw-bold">Login Admin</h3>
+
+    <form method="POST" action="{{ url_for('login') }}">
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" required autofocus>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" required>
+      </div>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary fw-bold">Masuk</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

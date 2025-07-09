@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+
+    <!-- Slide 1 dengan overlay dan teks -->
+    <div class="carousel-item active position-relative">
+      <img src="{{ url_for('static', filename='kof.jpg') }}" class="d-block w-100 hero-img" alt="Hero 1">
+      <div class="overlay"></div>
+      <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+        <h1 class="fw-bold text-white text-center">🔥 WARPZYY TOURNAMENT MLBB 2025 🔥</h1>
+        <p class="text-white text-center mb-4">Daftarkan tim terbaikmu, rebut kemenangan, dan jadilah juara arena!</p>
+        <a href="{{ url_for('daftar') }}" class="btn btn-primary btn-lg">Daftar Sekarang</a>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="carousel-item position-relative">
+      <img src="{{ url_for('static', filename='lightborn.jpg') }}" class="d-block w-100 hero-img" alt="Hero 2">
+      <div class="overlay"></div>
+      <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+        <h1 class="fw-bold text-white text-center">🔥 MOBILE LEGENDS TOURNAMENT 🔥</h1>
+        <p class="text-white text-center mb-4">THE LATEST MOBILE LEGENDS TOURNAMENT!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigasi -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+
+
+
+<!-- Fitur Section -->
+<div class="container my-5">
+  <div class="row text-center gy-4">
+    
+    <div class="col-12 col-md-4">
+      <a href="{{ url_for('daftar') }}" class="text-decoration-none text-white">
+        <div class="p-4 border rounded shadow-sm bg-dark h-100 hover-shadow">
+          <div class="fs-1 mb-2">📝</div>
+          <h5 class="fw-bold">Daftar Tim</h5>
+          <p class="text-muted">Buat tim 5 orang dan daftar dengan mudah.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <a href="{{ url_for('jadwal') }}" class="text-decoration-none text-white">
+        <div class="p-4 border rounded shadow-sm bg-dark h-100 hover-shadow">
+          <div class="fs-1 mb-2">📅</div>
+          <h5 class="fw-bold">Jadwal</h5>
+          <p class="text-muted">Lihat siapa yang akan kamu hadapi di babak pertama.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <a href="{{ url_for('hasil') }}" class="text-decoration-none text-white">
+        <div class="p-4 border rounded shadow-sm bg-dark h-100 hover-shadow">
+          <div class="fs-1 mb-2">🏆</div>
+          <h5 class="fw-bold">Hasil Pertandingan</h5>
+          <p class="text-muted">Update skor dan lihat klasemen tim secara langsung.</p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Section: Jadwal -->
+<div class="container my-5">
+  <h3 class="fw-bold text-white mb-3">📅 Jadwal Pertandingan</h3>
+  <div class="row g-3">
+    {% for match in jadwal %}
+    <div class="col-md-6">
+      <div class="card bg-dark text-white shadow-sm p-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <div><strong>{{ match[0] }}</strong></div>
+          <div class="text-muted">vs</div>
+          <div><strong>{{ match[1] }}</strong></div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-muted">Belum ada jadwal. Silakan daftar tim terlebih dahulu.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Section: Hasil -->
+<div class="container my-5">
+  <h3 class="fw-bold text-white mb-3">🏆 Hasil Pertandingan Terbaru</h3>
+  <div class="table-responsive bg-dark text-white rounded shadow-sm p-3">
+    <table class="table table-dark table-hover table-bordered align-middle text-center">
+      <thead class="table-secondary text-dark">
+        <tr>
+          <th>No</th>
+          <th>Tim 1</th>
+          <th>Skor</th>
+          <th>Tim 2</th>
+          <th>Skor</th>
+          <th>Pemenang</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for h in hasil[:5] %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ h['tim1'] }}</td>
+          <td>{{ h['skor1'] }}</td>
+          <td>{{ h['tim2'] }}</td>
+          <td>{{ h['skor2'] }}</td>
+          <td>
+            {% if h['skor1'] > h['skor2'] %}
+              <span class="badge bg-success">{{ h['tim1'] }}</span>
+            {% elif h['skor2'] > h['skor1'] %}
+              <span class="badge bg-success">{{ h['tim2'] }}</span>
+            {% else %}
+              <span class="badge bg-secondary">Seri</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" class="text-muted">Belum ada hasil pertandingan.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

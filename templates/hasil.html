@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}Hasil Pertandingan{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-light">
+    <h2 class="mb-4"><i class="bi bi-trophy-fill"></i> Input Hasil Pertandingan</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="card bg-dark text-light shadow-sm mb-4">
+        <div class="card-body">
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="tim1" class="form-label">Tim 1</label>
+                        <select name="tim1" class="form-select" required>
+                            {% for tim in tim_list %}
+                            <option value="{{ tim.nama_tim }}">{{ tim.nama_tim }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3 text-center">
+                        <label class="form-label">Skor</label>
+                        <input type="number" name="skor1" class="form-control" required>
+                    </div>
+                    <div class="col-md-2 mb-3 text-center">
+                        <label class="form-label">Skor</label>
+                        <input type="number" name="skor2" class="form-control" required>
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="tim2" class="form-label">Tim 2</label>
+                        <select name="tim2" class="form-select" required>
+                            {% for tim in tim_list %}
+                            <option value="{{ tim.nama_tim }}">{{ tim.nama_tim }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Simpan Hasil</button>
+            </form>
+        </div>
+    </div>
+
+    <h4 class="mb-3"><i class="bi bi-list-ol"></i> Daftar Hasil Pertandingan</h4>
+    <div class="table-responsive">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Tim 1</th>
+                    <th>Skor</th>
+                    <th>Tim 2</th>
+                    <th>Skor</th>
+                    <th>Pemenang</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for h in hasil %}
+                <tr>
+                    <td>{{ h.tim1 }}</td>
+                    <td>{{ h.skor1 }}</td>
+                    <td>{{ h.tim2 }}</td>
+                    <td>{{ h.skor2 }}</td>
+                    <td>
+                        {% if h.skor1 > h.skor2 %}
+                            <span class="badge bg-success">{{ h.tim1 }}</span>
+                        {% elif h.skor2 > h.skor1 %}
+                            <span class="badge bg-success">{{ h.tim2 }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Seri</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">Belum ada hasil pertandingan.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
