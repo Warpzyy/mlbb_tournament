@@ -211,8 +211,6 @@ def dashboard():
                            total_pertandingan=total_pertandingan,
                            top_list=top_list)
 
-import os
-
 if __name__ == '__main__':
     init_db()
     port = int(os.environ.get("PORT", 5000))
