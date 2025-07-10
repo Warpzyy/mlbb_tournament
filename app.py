@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask import session
+import os
+import sqlite3
 
 app = Flask(__name__)
 app.secret_key = 'rahasia'
 
-import sqlite3
 
 #index
 @app.route('/')
